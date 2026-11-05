@@ -1,83 +1,183 @@
-# FastAPI Beans ResNet18 동기·비동기 평가 프로젝트
+# FastAPI Beans ResNet18 동기·비동기 분류 서비스
 
-콩잎 이미지의 `angular_leaf_spot`, `bean_rust`, `healthy` 3개 클래스를 분류하는 ResNet18 모델과 FastAPI 동기·비동기 서비스를 평가한다. 학습 및 모델 선택에는 Train과 Validation을 사용한다. Test는 개선 후보를 확정한 뒤 최종 평가에 남겨둔다.
+콩잎 이미지 세 클래스(angular_leaf_spot, bean_rust, healthy)를 분류하고 결과를 FastAPI 동기·비동기 API로 제공하는 교과 9 평가 프로젝트.
 
-## 환경과 실행
+- 모델: microsoft/resnet-18 기반 ResNet18 fine-tuning
+- 서비스: FastAPI, Celery Worker, Redis, PostgreSQL
+- 최종 서비스 후보: artifacts/beans_resnet18_full/
+- 추론 장치: CPU
+- 필수 산출물과 증빙: reports/
 
-- Docker Engine 및 Docker Compose
-- FastAPI, Celery Worker, Redis, PostgreSQL
-- 모델 추론: CPU
-- 현재 서비스 모델: artifacts/beans_resnet18_full/; .env의 MODEL_PATH도 이 경로로 맞춘다.
-- 로컬 포트: FastAPI `8000`, Redis `6379`, PostgreSQL `5432`
+## 현재 결과 요약
 
-일반 서비스 실행에는 WSL 가상환경 활성화가 필요하지 않다. 학습은 Docker의 `trainer` 프로필로 수행한다.
+| 모델 | Validation Accuracy | Validation Macro F1 | Test Accuracy | Test Macro F1 |
+|---|---:|---:|---:|---:|
+| Head-only 기준 모델 | 0.7669 | 0.7640 | — | — |
+| Full Fine-tuning 최종 후보 | 0.9699 | 0.9700 | 0.9453 (121/128) | 0.9455 |
+
+- 병든 잎 → healthy 오분류: 기준 모델 11건 → 후보 2건 (Validation)
+- 병든 클래스 간 혼동: 기준 모델 16건 → 후보 1건 (Validation)
+- Test: 후보 확정 뒤 128장 전체 1회 평가. 추가 튜닝 미실시.
+- 결과 상세: [08 최종 기술 보고서](reports/08_최종기술보고서.md), [09 개선 실험 검토](reports/09_model_improvement_plan.md)
+
+## 준비물
+
+### 저장소 받기
+
+```bash
+git clone https://github.com/KJH032797/fastapi_resnet18.git
+cd fastapi_resnet18
+```
+
+### 실행 환경
+
+- Windows + WSL2 Ubuntu 또는 Linux
+- Windows: [Docker Desktop 설치](https://docs.docker.com/desktop/setup/install/windows-install/) 후 Ubuntu의 WSL Integration 활성화. [공식 WSL 안내](https://docs.docker.com/desktop/features/wsl/)
+- Linux: Docker Engine 및 Docker Compose v2
+- 학습 시 Hugging Face 사전학습 모델을 받을 인터넷 연결 또는 사전 캐시
+- Docker 방식의 API·학습 실행에는 호스트 WSL 가상환경 불필요
+- 아래 검증 스크립트를 호스트에서 직접 실행할 때만 Python 3.11 가상환경 필요
+
+### 데이터 준비
+
+수업 제공 Beans 데이터셋 또는 [AI-Lab-Makerere Beans 데이터셋](https://huggingface.co/datasets/AI-Lab-Makerere/beans)을 별도로 확보. 공유·재배포 시 이용 조건 확인.
+
+프로젝트에서 사용하는 구조:
+
+```text
+dataset/
+├── train/
+│   ├── angular_leaf_spot/
+│   ├── bean_rust/
+│   └── healthy/
+├── val/
+│   ├── angular_leaf_spot/
+│   ├── bean_rust/
+│   └── healthy/
+└── test/
+    ├── angular_leaf_spot/
+    ├── bean_rust/
+    └── healthy/
+```
+
+- 원본 validation/ 이미지는 실행 경로 dataset/val/에 배치.
+- Train 1,034장, Validation 133장, Test 128장.
+- GitHub에는 데이터셋을 포함하지 않음. 허용된 경로에서 확보해 위 위치에 배치.
+- Test는 모델 선택·튜닝에 사용하지 않음. 최종 후보 확정 뒤 최종 평가에만 사용.
+
+### 모델과 환경 파일
+
+최종 API 실행에는 Full Fine-tuning 모델을 artifacts/beans_resnet18_full/에 배치. 필요한 파일: config.json, model.safetensors, preprocessor_config.json.
+
+- 데이터·모델 가중치: GitHub에 포함하지 않음. 허용된 별도 전달 경로에서 확보.
+- 저장소를 새로 받은 뒤 환경 파일 생성:
+
+```bash
+cp .env.example .env
+```
+
+- .env의 모델 경로를 최종 후보로 설정:
+
+```env
+MODEL_PATH=artifacts/beans_resnet18_full
+```
+
+.env.example의 기본 경로는 Head-only 기준 모델(artifacts/beans_resnet18). 기준 모델만 실행할 때는 이 경로 유지. 최종 후보 서비스에는 Full Fine-tuning 모델 파일 필요.
+
+## 빠른 실행
+
+데이터·모델 파일을 준비하고 .env를 설정한 뒤 프로젝트 루트에서 실행:
+
+```bash
+docker compose up -d --build
+docker compose ps
+docker compose exec redis redis-cli ping
+```
+
+Redis 확인 결과 PONG, Web·Worker·PostgreSQL 컨테이너 상태 정상인지 확인.
+
+- 동기 화면: http://127.0.0.1:8000/vision/sync/
+- 비동기 화면: http://127.0.0.1:8000/vision/async/
+- API 문서: http://127.0.0.1:8000/docs
+- 상태 확인: http://127.0.0.1:8000/health
+
+동기 API: 분류 완료 후 결과 반환. 비동기 API: HTTP 202와 Job ID를 먼저 반환. 상태 조회에서 done 확인.
+
+서비스 종료:
+
+```bash
+docker compose down
+```
+
+## 학습 재현
+
+### Head-only 기준 모델
+
+Train·Validation 데이터와 .env 준비. 결과 경로: artifacts/beans_resnet18/.
 
 ```bash
 docker compose build trainer
 docker compose --profile train run --rm trainer
-docker compose up -d --build
-curl http://127.0.0.1:8000/health
 ```
 
-동기 화면: http://127.0.0.1:8000/vision/sync/
-비동기 화면: http://127.0.0.1:8000/vision/async/
-API 문서: http://127.0.0.1:8000/docs
+### Full Fine-tuning 후보
 
-Trainer는 Head-only(`--freeze-backbone`) 방식으로 `artifacts/beans_resnet18/`에 저장한다. 기본 산출물을 덮어쓰지 않도록 개선 비교는 별도 출력 경로를 사용한다.
+같은 Train·Validation 데이터로 Backbone을 고정하지 않고 학습. 결과 경로: artifacts/beans_resnet18_full/. 학습 후 .env의 MODEL_PATH를 이 경로로 바꾸고 Web·Worker 재생성.
 
-## 데이터 분할
-
-```text
-dataset/{train,val,test}/{angular_leaf_spot,bean_rust,healthy}/
+```bash
+docker compose --profile train run --rm trainer python -m training.finetune --data dataset --output artifacts/beans_resnet18_full --epochs 3 --batch-size 8 --lr 0.00005
+docker compose up -d --force-recreate web worker
 ```
 
-| Split | 수량 |
-|---|---:|
-| Train | 1,034 |
-| Validation | 133 |
-| Test | 128 |
+Trainer는 Validation Accuracy 최고 epoch의 모델을 저장. Head-only와 Full Fine-tuning은 별도 경로로 보존.
 
-모델 개선·선택은 Validation으로 진행했고, 최종 후보 확정 뒤 Test 전체를 한 차례 평가했다.
+## 로컬 검증 스크립트 실행
 
-## 현재 모델 결과
+scripts/를 Docker 밖에서 직접 실행할 때만 호스트 가상환경 설치. Docker 기반 서비스·학습에는 불필요.
 
-필수 Head-only 기준 모델은 Validation 전체에서 102/133 정답, Accuracy 0.7669, Macro F1 0.7640이었다. 이후 별도 Full Fine-tuning 후보를 학습해 같은 Validation 전체로 비교했다.
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+export MODEL_PATH=artifacts/beans_resnet18_full
+```
 
-- Full Fine-tuning 후보: 129/133 정답, Accuracy **0.9699**, Macro F1 **0.9700**
-- 병든 잎을 healthy로 놓친 사례: 기준선 11건 → 후보 2건
-- 병든 클래스 간 혼동: 기준선 16건 → 후보 1건
-- healthy → 병든 클래스 오분류: 기준선 4건 → 후보 1건 (후보 전체 오분류 4건)
-- 후보의 최고 Validation Accuracy는 epoch 1에서 나왔으며, epoch 2·3에서는 낮아졌다.
-- Full Fine-tuning 최종 후보는 artifacts/beans_resnet18_full/이며 Test Accuracy는 0.9453이다. 현재 .env의 MODEL_PATH와 Web·Worker는 이 최종 후보를 사용한다.
-- 최종 후보 Test 평가: 121/128 정답, Accuracy **0.9453**, Macro F1 **0.9455**. Test 결과를 사용한 추가 조정은 하지 않았다.
-
-건강 오탐을 우선한 근거, Full Fine-tuning 결과, 남은 병 클래스 혼동을 추가 개선하지 않은 판단은 [개선 실험 결과와 검토](reports/09_model_improvement_plan.md)에 기록했다. [후보의 Validation 지표](reports/evidence/validation_full_finetune_metrics.json), [최종 Test 지표](reports/evidence/test_final_metrics.json), [최종 기술 보고서](reports/08_최종기술보고서.md)를 참고한다.
-
-## 서비스
-
-- 동기 분류: `POST /api/sync/classify/`, 화면 `/vision/sync/`
-- 비동기 접수: `POST /api/async/classify/`, 상태 조회 `GET /api/async/jobs/{job_id}/`
-- 비동기 결과는 PostgreSQL `image_jobs`에 기록한다.
-
-## 보고서와 증빙
-
-- 산출물 1–8: [`reports/`](reports/)
-- 추가 개선 계획: [`reports/09_model_improvement_plan.md`](reports/09_model_improvement_plan.md)
-- Validation 이미지별 결과·혼동행렬: `reports/data/validation_baseline_*.csv`
-- Validation 반복 서비스 측정: `reports/data/timings_validation_benchmark_5x.csv`
-- 실행 증빙: `reports/evidence/`
-
-## 추가 검증 스크립트
-
-아래 스크립트는 보고서와 증빙에 사용한 보조 검증 도구다. 중복 점검은 고정 파일명으로 저장하며, 평가·성능 스크립트는 기존 결과를 덮어쓰지 않으므로 재실행 때 새 `--name`을 지정한다.
+호스트에서 실행하는 Python 스크립트는 .env를 자동으로 읽지 않음. 평가할 모델 경로를 MODEL_PATH로 지정.
 
 | 스크립트 | 실행 예 | 용도·결과 |
 |---|---|---|
-| 데이터 중복 점검 | `python scripts/audit_dataset_duplicates.py` | 분할 간 파일명·바이트 완전 중복 점검. 근접 중복 검사는 아님. `reports/data/filename_cross_split_duplicates.csv`, `reports/data/exact_cross_split_duplicates.csv` 생성 |
-| Validation 전체 평가 | `python scripts/evaluate_validation.py --name validation_run` | 현재 `MODEL_PATH` 모델의 Validation 지표·예측·혼동행렬 생성. `reports/evidence/<name>_metrics.json`, `reports/data/<name>_predictions.csv`, `reports/data/<name>_confusion_matrix.csv` |
-| 최종 Test 평가 | `python scripts/evaluate_test.py --name test_run` | 후보 확정 후 1회 평가. `reports/evidence/<name>_metrics.json`, `reports/data/<name>_predictions.csv`, `reports/data/<name>_confusion_matrix.csv` 생성. Test 결과로 추가 조정 금지 |
-| 서비스 성능 측정 | `python scripts/benchmark_validation.py --name validation_benchmark_run` | 실행 중인 로컬 서버에서 Validation 이미지 5장의 동기·비동기 MISS/HIT 측정. `reports/data/timings_<name>.csv`, `reports/evidence/performance_<name>.json` 생성. 측정 전 모델 워밍업 필요; 선택된 이미지의 Redis DB 1 캐시 키 삭제 |
+| 데이터 중복 점검 | python scripts/audit_dataset_duplicates.py | 분할 간 파일명·바이트 완전 중복 점검. 근접 중복 미검사. reports/data/filename_cross_split_duplicates.csv, reports/data/exact_cross_split_duplicates.csv 생성 |
+| Validation 전체 평가 | python scripts/evaluate_validation.py --name validation_run | 현재 MODEL_PATH 모델 지표·예측·혼동행렬. reports/evidence/<name>_metrics.json, reports/data/<name>_predictions.csv, reports/data/<name>_confusion_matrix.csv |
+| 최종 Test 평가 | python scripts/evaluate_test.py --name test_run | 후보 확정 뒤 1회 실행. reports/evidence/<name>_metrics.json, reports/data/<name>_predictions.csv, reports/data/<name>_confusion_matrix.csv 생성. Test 결과 기반 추가 튜닝 금지 |
+| 서비스 성능 측정 | python scripts/benchmark_validation.py --name validation_benchmark_run | 실행 중인 로컬 API·Redis 필요. 워밍업 후 Validation 이미지 5장 동기·비동기 MISS/HIT 측정. 선택 이미지의 Redis DB 1 캐시 키 삭제. CSV·JSON은 reports/data/ 및 reports/evidence/에 저장 |
 
-`evaluate_validation.py`와 `evaluate_test.py`는 `--name`이 지정한 결과 파일이 이미 있으면 중단한다. 재실행 시 새 이름 사용.
+평가·성능 스크립트는 기존 결과를 덮어쓰지 않음. 재실행 시 새 --name 사용.
 
-`.env`, 데이터셋, 모델 가중치 및 업로드 이미지의 공유는 이용 조건과 수업 제출 지침에 따른다. `.env`와 자격 증명은 공개 저장소에 올리지 않는다.
+## 서비스 처리 흐름
+
+- 동기: 이미지 업로드 → 입력 검증 → Redis 조회 → MISS면 모델 추론·캐시 저장 → 결과 응답
+- 비동기: 이미지 업로드 → 입력 검증·작업 등록 → HTTP 202·Job ID 반환 → Celery Worker 추론 → PostgreSQL 저장 → 상태 조회
+- Redis DB 1: 추론 결과 캐시 / DB 2: Celery Broker / DB 3: Celery 결과 백엔드
+- PostgreSQL image_jobs: 비동기 작업 상태·결과 저장
+
+## 산출물과 증빙
+
+- 필수 산출물 1–8: [reports/](reports/)
+- 추가 개선 기록: [09 모델 개선 실험 결과 및 검토](reports/09_model_improvement_plan.md)
+- Validation/Test 지표: reports/evidence/*_metrics.json
+- 이미지별 예측·혼동행렬·중복 점검: reports/data/
+- 성능 원본: reports/data/timings_validation_benchmark_5x.csv
+- 실행 캡처·API 응답·작업 기록: reports/evidence/
+- 시스템 구조·처리 흐름: [02 시스템 아키텍처](reports/02_시스템_아키텍처.md)
+- API·DB·기능 검증: [03 API 명세서](reports/03_API_명세서.md), [04 DB 구조·작업 이력](reports/04_DB_구조_작업이력.md), [07 기능 테스트·오류 분석](reports/07_기능테스트_오류분석.md)
+
+## GitHub 업로드에서 제외할 항목
+
+- .env: 개인 환경 설정·자격 증명. 공개 저장소 업로드 금지.
+- .venv/, __pycache__/, *.pyc: 로컬 가상환경·생성 캐시.
+- dataset/, artifacts/, media/jobs/: 데이터·모델 가중치·실행 업로드 파일. 허용된 별도 제출·공유 경로 이용.
+- .env.example, 소스·설정, 보고서·증빙: 저장소에 포함.
+- 제외 파일은 별도로 확보한 뒤 이 README의 경로에 배치.
+
+.env, 비밀번호, API 키, 공개 권한이 확인되지 않은 데이터는 GitHub에 올리지 않는다.
