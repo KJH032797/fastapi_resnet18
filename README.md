@@ -67,4 +67,17 @@ dataset/{train,val,test}/{angular_leaf_spot,bean_rust,healthy}/
 - Validation 반복 서비스 측정: `reports/data/timings_validation_benchmark_5x.csv`
 - 실행 증빙: `reports/evidence/`
 
+## 추가 검증 스크립트
+
+아래 스크립트는 보고서와 증빙에 사용한 보조 검증 도구다. 중복 점검은 고정 파일명으로 저장하며, 평가·성능 스크립트는 기존 결과를 덮어쓰지 않으므로 재실행 때 새 `--name`을 지정한다.
+
+| 스크립트 | 실행 예 | 용도·결과 |
+|---|---|---|
+| 데이터 중복 점검 | `python scripts/audit_dataset_duplicates.py` | 분할 간 파일명·바이트 완전 중복 점검. 근접 중복 검사는 아님. `reports/data/filename_cross_split_duplicates.csv`, `reports/data/exact_cross_split_duplicates.csv` 생성 |
+| Validation 전체 평가 | `python scripts/evaluate_validation.py --name validation_run` | 현재 `MODEL_PATH` 모델의 Validation 지표·예측·혼동행렬 생성. `reports/evidence/<name>_metrics.json`, `reports/data/<name>_predictions.csv`, `reports/data/<name>_confusion_matrix.csv` |
+| 최종 Test 평가 | `python scripts/evaluate_test.py --name test_run` | 후보 확정 후 1회 평가. `reports/evidence/<name>_metrics.json`, `reports/data/<name>_predictions.csv`, `reports/data/<name>_confusion_matrix.csv` 생성. Test 결과로 추가 조정 금지 |
+| 서비스 성능 측정 | `python scripts/benchmark_validation.py --name validation_benchmark_run` | 실행 중인 로컬 서버에서 Validation 이미지 5장의 동기·비동기 MISS/HIT 측정. `reports/data/timings_<name>.csv`, `reports/evidence/performance_<name>.json` 생성. 측정 전 모델 워밍업 필요; 선택된 이미지의 Redis DB 1 캐시 키 삭제 |
+
+`evaluate_validation.py`와 `evaluate_test.py`는 `--name`이 지정한 결과 파일이 이미 있으면 중단한다. 재실행 시 새 이름 사용.
+
 `.env`, 데이터셋, 모델 가중치 및 업로드 이미지의 공유는 이용 조건과 수업 제출 지침에 따른다. `.env`와 자격 증명은 공개 저장소에 올리지 않는다.
