@@ -1,0 +1,67 @@
+{
+  "accuracy": 0.9699248120300752,
+  "correct": 129,
+  "total": 133,
+  "per_class": {
+    "angular_leaf_spot": {
+      "precision": 1.0,
+      "recall": 0.9545454545454546,
+      "f1": 0.9767441860465117,
+      "support": 44
+    },
+    "bean_rust": {
+      "precision": 0.9565217391304348,
+      "recall": 0.9777777777777777,
+      "f1": 0.967032967032967,
+      "support": 45
+    },
+    "healthy": {
+      "precision": 0.9555555555555556,
+      "recall": 0.9772727272727273,
+      "f1": 0.9662921348314608,
+      "support": 44
+    }
+  },
+  "macro_average": {
+    "precision": 0.9706924315619968,
+    "recall": 0.9698653198653199,
+    "f1": 0.9700230959703132
+  },
+  "weighted_average": {
+    "precision": 0.970585885002361,
+    "recall": 0.9699248120300752,
+    "f1": 0.970000613797852
+  },
+  "confusion_matrix": {
+    "label_order": [
+      "angular_leaf_spot",
+      "bean_rust",
+      "healthy"
+    ],
+    "rows_actual_columns_predicted": {
+      "angular_leaf_spot": {
+        "angular_leaf_spot": 42,
+        "bean_rust": 1,
+        "healthy": 1
+      },
+      "bean_rust": {
+        "angular_leaf_spot": 0,
+        "bean_rust": 44,
+        "healthy": 1
+      },
+      "healthy": {
+        "angular_leaf_spot": 0,
+        "bean_rust": 1,
+        "healthy": 43
+      }
+    }
+  },
+  "model_path": "artifacts/beans_resnet18_full",
+  "source_split": "val",
+  "class_counts": {
+    "angular_leaf_spot": 44,
+    "bean_rust": 45,
+    "healthy": 44
+  },
+  "note": "Validation 전체 평가. Test 데이터는 열거나 사용하지 않았습니다."
+}

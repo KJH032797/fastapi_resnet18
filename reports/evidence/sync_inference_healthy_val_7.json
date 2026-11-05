@@ -1,0 +1,27 @@
+{
+  "image": "healthy_val.7.jpg",
+  "split": "val",
+  "http_status": 200,
+  "response_ms": 44,
+  "model_id": "artifacts/beans_resnet18",
+  "top1": {
+    "label": "healthy",
+    "score": 0.9515465497970581
+  },
+  "all": [
+    {
+      "label": "healthy",
+      "score": 0.9515465497970581
+    },
+    {
+      "label": "bean_rust",
+      "score": 0.024687763303518295
+    },
+    {
+      "label": "angular_leaf_spot",
+      "score": 0.023765699939793963
+    }
+  ],
+  "inference_ms": 25.04,
+  "cache_hit": false
+}

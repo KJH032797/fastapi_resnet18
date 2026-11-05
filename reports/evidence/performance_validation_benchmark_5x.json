@@ -1,0 +1,851 @@
+{
+  "created_at_utc": "2026-11-04T08:50:32.056779+00:00",
+  "run_status": "completed",
+  "error": null,
+  "model_id": "artifacts/beans_resnet18",
+  "source_split": "val",
+  "image_count": 5,
+  "poll_interval_ms": 100.0,
+  "worker_condition": "Use the project's running solo/concurrency=1 worker.",
+  "cache_policy": "Delete only selected five image keys in Redis DB 1 before each MISS group.",
+  "selected_images": [
+    {
+      "path": "healthy/healthy_val.28.jpg",
+      "sha256": "08c0944998d57de0417c46608dfb5b71df16e053a1eb16959f07fbace4e7badb"
+    },
+    {
+      "path": "bean_rust/bean_rust_val.44.jpg",
+      "sha256": "bcf000ecbe14187ab41820a9f6426d0ee58523bbaa7f7faf3cd26a18f8be08e8"
+    },
+    {
+      "path": "angular_leaf_spot/angular_leaf_spot_val.27.jpg",
+      "sha256": "f513ed25ce958d29d2db9c2a4a95b63380e62d533b75eda077afaea09739a799"
+    },
+    {
+      "path": "healthy/healthy_val.18.jpg",
+      "sha256": "b62c204e078ec5dd9a9da640653714bfcfbe9035139a722aefd023d6c888d4f3"
+    },
+    {
+      "path": "healthy/healthy_val.4.jpg",
+      "sha256": "b1d9801d4b9d79e382456953d7c0b23695f03b76700216c0c151fdbf80bcca1b"
+    }
+  ],
+  "groups": {
+    "sync_miss": {
+      "count": 5,
+      "http_median_ms": 21.37,
+      "final_median_ms": 21.37,
+      "inference_median_ms": 16.82
+    },
+    "sync_hit": {
+      "count": 5,
+      "http_median_ms": 1.71,
+      "final_median_ms": 1.71,
+      "inference_median_ms": null
+    },
+    "async_miss": {
+      "count": 5,
+      "http_median_ms": 7.75,
+      "final_median_ms": 113.28,
+      "inference_median_ms": 18.55
+    },
+    "async_hit": {
+      "count": 5,
+      "http_median_ms": 8.76,
+      "final_median_ms": 116.8,
+      "inference_median_ms": null
+    }
+  },
+  "records": [
+    {
+      "run_id": "sync_miss_1",
+      "split": "val",
+      "mode": "sync",
+      "cache_status": "MISS",
+      "path": "healthy/healthy_val.28.jpg",
+      "http_ms": 117.11,
+      "final_ms": 117.11,
+      "inference_ms": 92.56,
+      "cache_hit": false,
+      "job_id": null,
+      "top1_label": "healthy",
+      "top1_score": 0.8497386574745178,
+      "http_status": 200,
+      "response": {
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "healthy",
+          "score": 0.8497386574745178
+        },
+        "all": [
+          {
+            "label": "healthy",
+            "score": 0.8497386574745178
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.11334816366434097
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.03691313788294792
+          }
+        ],
+        "inference_ms": 92.56,
+        "cache_hit": false
+      }
+    },
+    {
+      "run_id": "sync_miss_2",
+      "split": "val",
+      "mode": "sync",
+      "cache_status": "MISS",
+      "path": "bean_rust/bean_rust_val.44.jpg",
+      "http_ms": 23.49,
+      "final_ms": 23.49,
+      "inference_ms": 18.42,
+      "cache_hit": false,
+      "job_id": null,
+      "top1_label": "bean_rust",
+      "top1_score": 0.5462891459465027,
+      "http_status": 200,
+      "response": {
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "bean_rust",
+          "score": 0.5462891459465027
+        },
+        "all": [
+          {
+            "label": "bean_rust",
+            "score": 0.5462891459465027
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.4010803997516632
+          },
+          {
+            "label": "healthy",
+            "score": 0.05263041332364082
+          }
+        ],
+        "inference_ms": 18.42,
+        "cache_hit": false
+      }
+    },
+    {
+      "run_id": "sync_miss_3",
+      "split": "val",
+      "mode": "sync",
+      "cache_status": "MISS",
+      "path": "angular_leaf_spot/angular_leaf_spot_val.27.jpg",
+      "http_ms": 18.63,
+      "final_ms": 18.63,
+      "inference_ms": 14.0,
+      "cache_hit": false,
+      "job_id": null,
+      "top1_label": "angular_leaf_spot",
+      "top1_score": 0.3743467628955841,
+      "http_status": 200,
+      "response": {
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "angular_leaf_spot",
+          "score": 0.3743467628955841
+        },
+        "all": [
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.3743467628955841
+          },
+          {
+            "label": "healthy",
+            "score": 0.36296188831329346
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.26269134879112244
+          }
+        ],
+        "inference_ms": 14.0,
+        "cache_hit": false
+      }
+    },
+    {
+      "run_id": "sync_miss_4",
+      "split": "val",
+      "mode": "sync",
+      "cache_status": "MISS",
+      "path": "healthy/healthy_val.18.jpg",
+      "http_ms": 21.37,
+      "final_ms": 21.37,
+      "inference_ms": 16.82,
+      "cache_hit": false,
+      "job_id": null,
+      "top1_label": "healthy",
+      "top1_score": 0.7677461504936218,
+      "http_status": 200,
+      "response": {
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "healthy",
+          "score": 0.7677461504936218
+        },
+        "all": [
+          {
+            "label": "healthy",
+            "score": 0.7677461504936218
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.152762770652771
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.0794910192489624
+          }
+        ],
+        "inference_ms": 16.82,
+        "cache_hit": false
+      }
+    },
+    {
+      "run_id": "sync_miss_5",
+      "split": "val",
+      "mode": "sync",
+      "cache_status": "MISS",
+      "path": "healthy/healthy_val.4.jpg",
+      "http_ms": 20.24,
+      "final_ms": 20.24,
+      "inference_ms": 14.9,
+      "cache_hit": false,
+      "job_id": null,
+      "top1_label": "healthy",
+      "top1_score": 0.7161106467247009,
+      "http_status": 200,
+      "response": {
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "healthy",
+          "score": 0.7161106467247009
+        },
+        "all": [
+          {
+            "label": "healthy",
+            "score": 0.7161106467247009
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.17915226519107819
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.10473711043596268
+          }
+        ],
+        "inference_ms": 14.9,
+        "cache_hit": false
+      }
+    },
+    {
+      "run_id": "sync_hit_1",
+      "split": "val",
+      "mode": "sync",
+      "cache_status": "HIT",
+      "path": "healthy/healthy_val.28.jpg",
+      "http_ms": 2.31,
+      "final_ms": 2.31,
+      "inference_ms": null,
+      "cache_hit": true,
+      "job_id": null,
+      "top1_label": "healthy",
+      "top1_score": 0.8497386574745178,
+      "http_status": 200,
+      "response": {
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "healthy",
+          "score": 0.8497386574745178
+        },
+        "all": [
+          {
+            "label": "healthy",
+            "score": 0.8497386574745178
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.11334816366434097
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.03691313788294792
+          }
+        ],
+        "inference_ms": null,
+        "cache_hit": true
+      }
+    },
+    {
+      "run_id": "sync_hit_2",
+      "split": "val",
+      "mode": "sync",
+      "cache_status": "HIT",
+      "path": "bean_rust/bean_rust_val.44.jpg",
+      "http_ms": 1.69,
+      "final_ms": 1.69,
+      "inference_ms": null,
+      "cache_hit": true,
+      "job_id": null,
+      "top1_label": "bean_rust",
+      "top1_score": 0.5462891459465027,
+      "http_status": 200,
+      "response": {
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "bean_rust",
+          "score": 0.5462891459465027
+        },
+        "all": [
+          {
+            "label": "bean_rust",
+            "score": 0.5462891459465027
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.4010803997516632
+          },
+          {
+            "label": "healthy",
+            "score": 0.05263041332364082
+          }
+        ],
+        "inference_ms": null,
+        "cache_hit": true
+      }
+    },
+    {
+      "run_id": "sync_hit_3",
+      "split": "val",
+      "mode": "sync",
+      "cache_status": "HIT",
+      "path": "angular_leaf_spot/angular_leaf_spot_val.27.jpg",
+      "http_ms": 1.71,
+      "final_ms": 1.71,
+      "inference_ms": null,
+      "cache_hit": true,
+      "job_id": null,
+      "top1_label": "angular_leaf_spot",
+      "top1_score": 0.3743467628955841,
+      "http_status": 200,
+      "response": {
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "angular_leaf_spot",
+          "score": 0.3743467628955841
+        },
+        "all": [
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.3743467628955841
+          },
+          {
+            "label": "healthy",
+            "score": 0.36296188831329346
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.26269134879112244
+          }
+        ],
+        "inference_ms": null,
+        "cache_hit": true
+      }
+    },
+    {
+      "run_id": "sync_hit_4",
+      "split": "val",
+      "mode": "sync",
+      "cache_status": "HIT",
+      "path": "healthy/healthy_val.18.jpg",
+      "http_ms": 1.81,
+      "final_ms": 1.81,
+      "inference_ms": null,
+      "cache_hit": true,
+      "job_id": null,
+      "top1_label": "healthy",
+      "top1_score": 0.7677461504936218,
+      "http_status": 200,
+      "response": {
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "healthy",
+          "score": 0.7677461504936218
+        },
+        "all": [
+          {
+            "label": "healthy",
+            "score": 0.7677461504936218
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.152762770652771
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.0794910192489624
+          }
+        ],
+        "inference_ms": null,
+        "cache_hit": true
+      }
+    },
+    {
+      "run_id": "sync_hit_5",
+      "split": "val",
+      "mode": "sync",
+      "cache_status": "HIT",
+      "path": "healthy/healthy_val.4.jpg",
+      "http_ms": 1.57,
+      "final_ms": 1.57,
+      "inference_ms": null,
+      "cache_hit": true,
+      "job_id": null,
+      "top1_label": "healthy",
+      "top1_score": 0.7161106467247009,
+      "http_status": 200,
+      "response": {
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "healthy",
+          "score": 0.7161106467247009
+        },
+        "all": [
+          {
+            "label": "healthy",
+            "score": 0.7161106467247009
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.17915226519107819
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.10473711043596268
+          }
+        ],
+        "inference_ms": null,
+        "cache_hit": true
+      }
+    },
+    {
+      "run_id": "async_miss_1",
+      "split": "val",
+      "mode": "async",
+      "cache_status": "MISS",
+      "path": "healthy/healthy_val.28.jpg",
+      "http_ms": 42.6,
+      "final_ms": 150.03,
+      "inference_ms": 55.06,
+      "cache_hit": false,
+      "job_id": 19,
+      "top1_label": "healthy",
+      "top1_score": 0.8497386574745178,
+      "http_status": 202,
+      "response": {
+        "job_id": 19,
+        "status": "done",
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "healthy",
+          "score": 0.8497386574745178
+        },
+        "all": [
+          {
+            "label": "healthy",
+            "score": 0.8497386574745178
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.11334816366434097
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.03691313788294792
+          }
+        ],
+        "inference_ms": 55.06,
+        "cache_hit": false,
+        "error_message": null
+      }
+    },
+    {
+      "run_id": "async_miss_2",
+      "split": "val",
+      "mode": "async",
+      "cache_status": "MISS",
+      "path": "bean_rust/bean_rust_val.44.jpg",
+      "http_ms": 7.75,
+      "final_ms": 113.28,
+      "inference_ms": 17.22,
+      "cache_hit": false,
+      "job_id": 20,
+      "top1_label": "bean_rust",
+      "top1_score": 0.5462891459465027,
+      "http_status": 202,
+      "response": {
+        "job_id": 20,
+        "status": "done",
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "bean_rust",
+          "score": 0.5462891459465027
+        },
+        "all": [
+          {
+            "label": "bean_rust",
+            "score": 0.5462891459465027
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.4010803997516632
+          },
+          {
+            "label": "healthy",
+            "score": 0.05263041332364082
+          }
+        ],
+        "inference_ms": 17.22,
+        "cache_hit": false,
+        "error_message": null
+      }
+    },
+    {
+      "run_id": "async_miss_3",
+      "split": "val",
+      "mode": "async",
+      "cache_status": "MISS",
+      "path": "angular_leaf_spot/angular_leaf_spot_val.27.jpg",
+      "http_ms": 7.07,
+      "final_ms": 112.28,
+      "inference_ms": 18.55,
+      "cache_hit": false,
+      "job_id": 21,
+      "top1_label": "angular_leaf_spot",
+      "top1_score": 0.3743467628955841,
+      "http_status": 202,
+      "response": {
+        "job_id": 21,
+        "status": "done",
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "angular_leaf_spot",
+          "score": 0.3743467628955841
+        },
+        "all": [
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.3743467628955841
+          },
+          {
+            "label": "healthy",
+            "score": 0.36296188831329346
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.26269134879112244
+          }
+        ],
+        "inference_ms": 18.55,
+        "cache_hit": false,
+        "error_message": null
+      }
+    },
+    {
+      "run_id": "async_miss_4",
+      "split": "val",
+      "mode": "async",
+      "cache_status": "MISS",
+      "path": "healthy/healthy_val.18.jpg",
+      "http_ms": 6.95,
+      "final_ms": 112.53,
+      "inference_ms": 17.44,
+      "cache_hit": false,
+      "job_id": 22,
+      "top1_label": "healthy",
+      "top1_score": 0.7677461504936218,
+      "http_status": 202,
+      "response": {
+        "job_id": 22,
+        "status": "done",
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "healthy",
+          "score": 0.7677461504936218
+        },
+        "all": [
+          {
+            "label": "healthy",
+            "score": 0.7677461504936218
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.152762770652771
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.0794910192489624
+          }
+        ],
+        "inference_ms": 17.44,
+        "cache_hit": false,
+        "error_message": null
+      }
+    },
+    {
+      "run_id": "async_miss_5",
+      "split": "val",
+      "mode": "async",
+      "cache_status": "MISS",
+      "path": "healthy/healthy_val.4.jpg",
+      "http_ms": 8.53,
+      "final_ms": 114.23,
+      "inference_ms": 19.6,
+      "cache_hit": false,
+      "job_id": 23,
+      "top1_label": "healthy",
+      "top1_score": 0.7161106467247009,
+      "http_status": 202,
+      "response": {
+        "job_id": 23,
+        "status": "done",
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "healthy",
+          "score": 0.7161106467247009
+        },
+        "all": [
+          {
+            "label": "healthy",
+            "score": 0.7161106467247009
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.17915226519107819
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.10473711043596268
+          }
+        ],
+        "inference_ms": 19.6,
+        "cache_hit": false,
+        "error_message": null
+      }
+    },
+    {
+      "run_id": "async_hit_1",
+      "split": "val",
+      "mode": "async",
+      "cache_status": "HIT",
+      "path": "healthy/healthy_val.28.jpg",
+      "http_ms": 7.39,
+      "final_ms": 118.66,
+      "inference_ms": null,
+      "cache_hit": true,
+      "job_id": 24,
+      "top1_label": "healthy",
+      "top1_score": 0.8497386574745178,
+      "http_status": 202,
+      "response": {
+        "job_id": 24,
+        "status": "done",
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "healthy",
+          "score": 0.8497386574745178
+        },
+        "all": [
+          {
+            "label": "healthy",
+            "score": 0.8497386574745178
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.11334816366434097
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.03691313788294792
+          }
+        ],
+        "inference_ms": null,
+        "cache_hit": true,
+        "error_message": null
+      }
+    },
+    {
+      "run_id": "async_hit_2",
+      "split": "val",
+      "mode": "async",
+      "cache_status": "HIT",
+      "path": "bean_rust/bean_rust_val.44.jpg",
+      "http_ms": 9.23,
+      "final_ms": 115.59,
+      "inference_ms": null,
+      "cache_hit": true,
+      "job_id": 25,
+      "top1_label": "bean_rust",
+      "top1_score": 0.5462891459465027,
+      "http_status": 202,
+      "response": {
+        "job_id": 25,
+        "status": "done",
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "bean_rust",
+          "score": 0.5462891459465027
+        },
+        "all": [
+          {
+            "label": "bean_rust",
+            "score": 0.5462891459465027
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.4010803997516632
+          },
+          {
+            "label": "healthy",
+            "score": 0.05263041332364082
+          }
+        ],
+        "inference_ms": null,
+        "cache_hit": true,
+        "error_message": null
+      }
+    },
+    {
+      "run_id": "async_hit_3",
+      "split": "val",
+      "mode": "async",
+      "cache_status": "HIT",
+      "path": "angular_leaf_spot/angular_leaf_spot_val.27.jpg",
+      "http_ms": 7.04,
+      "final_ms": 116.8,
+      "inference_ms": null,
+      "cache_hit": true,
+      "job_id": 26,
+      "top1_label": "angular_leaf_spot",
+      "top1_score": 0.3743467628955841,
+      "http_status": 202,
+      "response": {
+        "job_id": 26,
+        "status": "done",
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "angular_leaf_spot",
+          "score": 0.3743467628955841
+        },
+        "all": [
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.3743467628955841
+          },
+          {
+            "label": "healthy",
+            "score": 0.36296188831329346
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.26269134879112244
+          }
+        ],
+        "inference_ms": null,
+        "cache_hit": true,
+        "error_message": null
+      }
+    },
+    {
+      "run_id": "async_hit_4",
+      "split": "val",
+      "mode": "async",
+      "cache_status": "HIT",
+      "path": "healthy/healthy_val.18.jpg",
+      "http_ms": 9.4,
+      "final_ms": 121.88,
+      "inference_ms": null,
+      "cache_hit": true,
+      "job_id": 27,
+      "top1_label": "healthy",
+      "top1_score": 0.7677461504936218,
+      "http_status": 202,
+      "response": {
+        "job_id": 27,
+        "status": "done",
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "healthy",
+          "score": 0.7677461504936218
+        },
+        "all": [
+          {
+            "label": "healthy",
+            "score": 0.7677461504936218
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.152762770652771
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.0794910192489624
+          }
+        ],
+        "inference_ms": null,
+        "cache_hit": true,
+        "error_message": null
+      }
+    },
+    {
+      "run_id": "async_hit_5",
+      "split": "val",
+      "mode": "async",
+      "cache_status": "HIT",
+      "path": "healthy/healthy_val.4.jpg",
+      "http_ms": 8.76,
+      "final_ms": 114.42,
+      "inference_ms": null,
+      "cache_hit": true,
+      "job_id": 28,
+      "top1_label": "healthy",
+      "top1_score": 0.7161106467247009,
+      "http_status": 202,
+      "response": {
+        "job_id": 28,
+        "status": "done",
+        "model_id": "artifacts/beans_resnet18",
+        "top1": {
+          "label": "healthy",
+          "score": 0.7161106467247009
+        },
+        "all": [
+          {
+            "label": "healthy",
+            "score": 0.7161106467247009
+          },
+          {
+            "label": "bean_rust",
+            "score": 0.17915226519107819
+          },
+          {
+            "label": "angular_leaf_spot",
+            "score": 0.10473711043596268
+          }
+        ],
+        "inference_ms": null,
+        "cache_hit": true,
+        "error_message": null
+      }
+    }
+  ]
+}

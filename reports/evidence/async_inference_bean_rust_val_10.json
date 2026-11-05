@@ -1,0 +1,30 @@
+{
+  "image": "bean_rust_val.10.jpg",
+  "split": "val",
+  "job_id": 16,
+  "accepted_ms": 19,
+  "total_ms": 1041,
+  "status": "done",
+  "model_id": "artifacts/beans_resnet18",
+  "top1": {
+    "label": "bean_rust",
+    "score": 0.4294726848602295
+  },
+  "all": [
+    {
+      "label": "bean_rust",
+      "score": 0.4294726848602295
+    },
+    {
+      "label": "healthy",
+      "score": 0.3689008951187134
+    },
+    {
+      "label": "angular_leaf_spot",
+      "score": 0.20162639021873474
+    }
+  ],
+  "inference_ms": 18.26,
+  "cache_hit": false,
+  "error_message": null
+}

@@ -1,0 +1,27 @@
+{
+  "image": "bean_rust_val.27.jpg",
+  "split": "val",
+  "http_status": 200,
+  "response_ms": 46,
+  "model_id": "artifacts/beans_resnet18",
+  "top1": {
+    "label": "angular_leaf_spot",
+    "score": 0.5446696877479553
+  },
+  "all": [
+    {
+      "label": "angular_leaf_spot",
+      "score": 0.5446696877479553
+    },
+    {
+      "label": "bean_rust",
+      "score": 0.3590488135814667
+    },
+    {
+      "label": "healthy",
+      "score": 0.09628143161535263
+    }
+  ],
+  "inference_ms": 27.62,
+  "cache_hit": false
+}

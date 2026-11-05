@@ -1,0 +1,10 @@
+split,class,image_count
+train,angular_leaf_spot,345
+train,bean_rust,348
+train,healthy,341
+val,angular_leaf_spot,44
+val,bean_rust,45
+val,healthy,44
+test,angular_leaf_spot,43
+test,bean_rust,43
+test,healthy,42

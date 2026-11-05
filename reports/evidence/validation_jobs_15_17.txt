@@ -1,0 +1,7 @@
+ id | status |              image_path              |         model_id         |    top1_label     |     top1_score     | inference_ms | cache_hit | error_message 
+----+--------+--------------------------------------+--------------------------+-------------------+--------------------+--------------+-----------+---------------
+ 15 | done   | e7f60a965f5a4ba3b28bf1f6f160eae3.bin | artifacts/beans_resnet18 | angular_leaf_spot | 0.5138178467750549 |        78.81 | f         | 
+ 16 | done   | 9d500cbf08fe4cb782c891eb296a1638.bin | artifacts/beans_resnet18 | bean_rust         | 0.4294726848602295 |        18.26 | f         | 
+ 17 | done   | da764887b10c4980812d69a6e31b7d6f.bin | artifacts/beans_resnet18 | healthy           | 0.9515465497970581 |        20.12 | f         | 
+(3 rows)
+

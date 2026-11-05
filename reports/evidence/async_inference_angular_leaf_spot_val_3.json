@@ -1,0 +1,30 @@
+{
+  "image": "angular_leaf_spot_val.3.jpg",
+  "split": "val",
+  "job_id": 15,
+  "accepted_ms": 71,
+  "total_ms": 1082,
+  "status": "done",
+  "model_id": "artifacts/beans_resnet18",
+  "top1": {
+    "label": "angular_leaf_spot",
+    "score": 0.5138178467750549
+  },
+  "all": [
+    {
+      "label": "angular_leaf_spot",
+      "score": 0.5138178467750549
+    },
+    {
+      "label": "healthy",
+      "score": 0.2924876809120178
+    },
+    {
+      "label": "bean_rust",
+      "score": 0.19369444251060486
+    }
+  ],
+  "inference_ms": 78.81,
+  "cache_hit": false,
+  "error_message": null
+}
